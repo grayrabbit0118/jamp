@@ -19,7 +19,7 @@ const stageTransitionDetailEl = document.getElementById('stageTransitionDetail')
 const instructionOverlay = document.getElementById('instructionOverlay');
 const instructionStageMessageEl = document.getElementById('instructionStageMessage');
 const instructionContinueButton = document.getElementById('instructionContinueButton');
-const touchPreventElements = [gameArea, jumpButton, startButton, retryButton, instructionOverlay];
+const touchPreventElements = [gameArea, jumpButton];
 
 if (characterImageEl) {
   characterImageEl.src = 'images/player_run1.png?v=2';
@@ -84,8 +84,8 @@ const STAR_TARGET_COUNT = 15;
 const SCORE_TARGET_COUNT = 15;
 const GAME_CLEAR_DELAY = 1200;
 
-const CHARACTER_BASE_LEFT = isMobile ? 18 : 24;
-const CHARACTER_BASE_BOTTOM = isMobile ? 46 : 54;
+const CHARACTER_BASE_LEFT = 24;
+const CHARACTER_BASE_BOTTOM = 54;
 let clusterQueue = 0;
 let goalActive = false;
 let goalWaiting = false;
@@ -344,7 +344,12 @@ function startRunning() {
       }
 
       const currentLeft = parseFloat(obstacle.style.left || '100%');
-      const nextLeft = currentLeft - (BASE_OBJECT_SPEED + (currentStage - 1) * 0.05 + delta * OBJECT_ACCELERATION);
+      const frame = delta / 16;
+
+const nextLeft = currentLeft - (
+  BASE_OBJECT_SPEED * frame +
+  (currentStage - 1) * 0.05 * frame
+);
       obstacle.style.left = `${nextLeft}%`;
 
       if (nextLeft < -12) {
@@ -503,7 +508,7 @@ function startRunning() {
       const requiresBigJump = obstacle.dataset.requiresBigJump === 'true';
       const isInJump = isJumping || jumpHeight > 0;
       const isDescending = jumpHeight > 0 && !isJumping;
-      const collisionInset = isMobile ? 84 : (isDescending ? 50 : isInJump ? 44 : 36);
+      const collisionInset = isDescending ? 50 : isInJump ? 44 : 36;
       const characterHitbox = {
         left: characterRect.left + (isMobile ? 34 : 26),
         top: isDescending ? characterRect.top + 24 : isInJump ? characterRect.top + 26 : characterRect.top + 30,
