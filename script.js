@@ -74,7 +74,7 @@ const CLUSTER_SIZE = 5;
 const CLUSTER_CHANCE = 0.18;
 const STAGE1_OBSTACLE_COUNT = 15;
 // ゴールは全障害物が終わった後に遅延して出現させる
-const GOAL_DELAY = 700; // ミリ秒
+const GOAL_DELAY = 500; // ミリ秒
 const STAGE_TRANSITION_DELAY = 2400;
 const CHARACTER_BASE_LEFT = isMobile ? 18 : 24;
 const CHARACTER_BASE_BOTTOM = isMobile ? 46 : 54;
@@ -469,10 +469,10 @@ function startRunning() {
         bottom: characterRect.bottom + 8,
       };
       const starHitbox = {
-        left: starRect.left - 0.5,
-        top: starRect.top - 0.5,
-        right: starRect.right + 0.5,
-        bottom: starRect.bottom + 0.5,
+        left: starRect.left - 1.5,
+        top: starRect.top - 1.5,
+        right: starRect.right + 1.5,
+        bottom: starRect.bottom + 1.5,
       };
       const hitX = characterHitbox.right > starHitbox.left && characterHitbox.left < starHitbox.right;
       const hitY = characterHitbox.bottom > starHitbox.top && characterHitbox.top < starHitbox.bottom;
@@ -501,18 +501,18 @@ function startRunning() {
       const requiresBigJump = obstacle.dataset.requiresBigJump === 'true';
       const isInJump = isJumping || jumpHeight > 0;
       const isDescending = jumpHeight > 0 && !isJumping;
-      const collisionInset = isMobile ? 72 : (isDescending ? 50 : isInJump ? 44 : 36);
+      const collisionInset = isMobile ? 66 : (isDescending ? 50 : isInJump ? 44 : 36);
       const characterHitbox = {
-        left: characterRect.left + (isMobile ? 30 : 26),
-        top: isDescending ? characterRect.top + 20 : isInJump ? characterRect.top + 22 : characterRect.top + 26,
-        right: characterRect.right - (isMobile ? 30 : 26),
-        bottom: isDescending ? characterRect.bottom - 18 : isInJump ? characterRect.bottom - 24 : characterRect.bottom - 20,
+        left: characterRect.left + (isMobile ? 28 : 26),
+        top: isDescending ? characterRect.top + 18 : isInJump ? characterRect.top + 20 : characterRect.top + 24,
+        right: characterRect.right - (isMobile ? 28 : 26),
+        bottom: isDescending ? characterRect.bottom - 16 : isInJump ? characterRect.bottom - 22 : characterRect.bottom - 18,
       };
       const obstacleHitbox = {
         left: obstacleRect.left + collisionInset,
-        top: obstacleRect.top + (isMobile ? 24 : 22),
+        top: obstacleRect.top + (isMobile ? 20 : 22),
         right: obstacleRect.right - collisionInset,
-        bottom: obstacleRect.bottom - (isMobile ? 22 : 20),
+        bottom: obstacleRect.bottom - (isMobile ? 18 : 20),
       };
       const hitX = characterHitbox.right > obstacleHitbox.left && characterHitbox.left < obstacleHitbox.right;
       const hitY = characterHitbox.bottom > obstacleHitbox.top && characterHitbox.top < obstacleHitbox.bottom;
