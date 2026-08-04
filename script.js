@@ -141,6 +141,24 @@ touchPreventElements.forEach((element) => {
 window.addEventListener('gesturestart', (event) => event.preventDefault());
 window.addEventListener('dblclick', (event) => event.preventDefault());
 
+function bindTapAction(element, handler) {
+  if (!element) {
+    return;
+  }
+
+  const invoke = (event) => {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    handler();
+  };
+
+  element.addEventListener('click', invoke);
+  element.addEventListener('touchend', invoke, { passive: false });
+  element.addEventListener('pointerup', invoke);
+}
+
 function showInstructionOverlay(stage) {
   instructionStageMessageEl.textContent = stage === 1
     ? '障害物をジャンプして避けろ'
@@ -624,13 +642,13 @@ function jumpCharacter() {
   }
 }
 
-startButton.addEventListener('click', () => showInstructionOverlay(1));
-instructionContinueButton.addEventListener('click', () => {
+bindTapAction(startButton, () => showInstructionOverlay(1));
+bindTapAction(instructionContinueButton, () => {
   hideInstructionOverlay();
   startCountdown();
 });
-jumpButton.addEventListener('click', jumpCharacter);
-retryButton.addEventListener('click', () => {
+bindTapAction(jumpButton, jumpCharacter);
+bindTapAction(retryButton, () => {
   // リトライ / 最初からプレイ時は状態をリセットして再開
   if (gameCleared) {
     currentStage = 1;
