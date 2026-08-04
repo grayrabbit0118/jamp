@@ -76,8 +76,8 @@ const STAGE1_OBSTACLE_COUNT = 15;
 // ゴールは全障害物が終わった後に遅延して出現させる
 const GOAL_DELAY = 900; // ミリ秒
 const STAGE_TRANSITION_DELAY = 2400;
-const CHARACTER_BASE_LEFT = 24;
-const CHARACTER_BASE_BOTTOM = 54;
+const CHARACTER_BASE_LEFT = isMobile ? 18 : 24;
+const CHARACTER_BASE_BOTTOM = isMobile ? 46 : 54;
 let clusterQueue = 0;
 let goalActive = false;
 let goalWaiting = false;
@@ -305,11 +305,11 @@ function startRunning() {
       }
     }
     const obstacleInterval = currentStage === 1
-      ? (isMobile ? Math.max(1100, OBSTACLE_INTERVAL + 120 - (currentStage - 1) * 90) : Math.max(900, OBSTACLE_INTERVAL - (currentStage - 1) * 90))
-      : (isMobile ? Math.max(2000, OBSTACLE_INTERVAL + 180 - (currentStage - 1) * 10) : Math.max(1800, OBSTACLE_INTERVAL - (currentStage - 1) * 10));
+      ? (isMobile ? 1560 : Math.max(900, OBSTACLE_INTERVAL - (currentStage - 1) * 90))
+      : (isMobile ? 2200 : Math.max(1800, OBSTACLE_INTERVAL - (currentStage - 1) * 10));
     const clusterInterval = currentStage === 1
-      ? (isMobile ? Math.max(920, CLUSTER_INTERVAL + 80 - (currentStage - 1) * 50) : Math.max(760, CLUSTER_INTERVAL - (currentStage - 1) * 50))
-      : (isMobile ? Math.max(1400, CLUSTER_INTERVAL + 120 - (currentStage - 1) * 5) : Math.max(1200, CLUSTER_INTERVAL - (currentStage - 1) * 5));
+      ? (isMobile ? 1260 : Math.max(760, CLUSTER_INTERVAL - (currentStage - 1) * 50))
+      : (isMobile ? 1700 : Math.max(1200, CLUSTER_INTERVAL - (currentStage - 1) * 5));
     const currentInterval = clusterQueue > 0 ? clusterInterval : obstacleInterval;
     const shouldSpawnObstacle = currentStage === 2
       ? !stage2GoalPhase && starObstacleBlockTimer <= 0 && Math.random() < 0.12
@@ -501,20 +501,18 @@ function startRunning() {
       const requiresBigJump = obstacle.dataset.requiresBigJump === 'true';
       const isInJump = isJumping || jumpHeight > 0;
       const isDescending = jumpHeight > 0 && !isJumping;
-      const collisionInset = isMobile
-        ? (isDescending ? 56 : isInJump ? 50 : 44)
-        : (isDescending ? 50 : isInJump ? 44 : 36);
+      const collisionInset = isMobile ? 84 : (isDescending ? 50 : isInJump ? 44 : 36);
       const characterHitbox = {
-        left: characterRect.left + 26,
-        top: isDescending ? characterRect.top + 22 : isInJump ? characterRect.top + 24 : characterRect.top + 28,
-        right: characterRect.right - 26,
-        bottom: isDescending ? characterRect.bottom - 18 : isInJump ? characterRect.bottom - 24 : characterRect.bottom - 20,
+        left: characterRect.left + (isMobile ? 34 : 26),
+        top: isDescending ? characterRect.top + 24 : isInJump ? characterRect.top + 26 : characterRect.top + 30,
+        right: characterRect.right - (isMobile ? 34 : 26),
+        bottom: isDescending ? characterRect.bottom - 22 : isInJump ? characterRect.bottom - 28 : characterRect.bottom - 24,
       };
       const obstacleHitbox = {
         left: obstacleRect.left + collisionInset,
-        top: obstacleRect.top + 22,
+        top: obstacleRect.top + (isMobile ? 28 : 22),
         right: obstacleRect.right - collisionInset,
-        bottom: obstacleRect.bottom - 20,
+        bottom: obstacleRect.bottom - (isMobile ? 26 : 20),
       };
       const hitX = characterHitbox.right > obstacleHitbox.left && characterHitbox.left < obstacleHitbox.right;
       const hitY = characterHitbox.bottom > obstacleHitbox.top && characterHitbox.top < obstacleHitbox.bottom;

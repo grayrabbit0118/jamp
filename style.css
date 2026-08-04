@@ -215,6 +215,15 @@ button:disabled {
   background: transparent;
 }
 
+@media (max-width: 900px) {
+  .character {
+    left: 18px;
+    bottom: 46px;
+    width: 132px;
+    height: 132px;
+  }
+}
+
 .score {
   position: absolute;
   top: 8px;
