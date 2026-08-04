@@ -261,6 +261,12 @@ function startRunning() {
     }
 
     const delta = timestamp - lastTime;
+
+      if (delta < 16) {
+        animationFrameId = requestAnimationFrame(step);
+        return;
+    }
+    
     lastTime = timestamp;
 
     if (gameOver) {
