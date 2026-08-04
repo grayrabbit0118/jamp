@@ -498,18 +498,19 @@ function startRunning() {
       const obstacleRect = getRelativeRect(obstacle);
       const requiresBigJump = obstacle.dataset.requiresBigJump === 'true';
       const isInJump = isJumping || jumpHeight > 0;
-      const collisionInset = isInJump ? 16 : 10;
+      const isDescending = jumpHeight > 0 && !isJumping;
+      const collisionInset = isDescending ? 24 : isInJump ? 20 : 14;
       const characterHitbox = {
         left: characterRect.left + 20,
-        top: isInJump ? characterRect.top + 18 : characterRect.top + 20,
+        top: isDescending ? characterRect.top + 16 : isInJump ? characterRect.top + 18 : characterRect.top + 20,
         right: characterRect.right - 20,
-        bottom: isInJump ? characterRect.bottom - 18 : characterRect.bottom - 16,
+        bottom: isDescending ? characterRect.bottom - 12 : isInJump ? characterRect.bottom - 18 : characterRect.bottom - 16,
       };
       const obstacleHitbox = {
         left: obstacleRect.left + collisionInset,
-        top: obstacleRect.top + 7,
+        top: obstacleRect.top + 8,
         right: obstacleRect.right - collisionInset,
-        bottom: obstacleRect.bottom - 7,
+        bottom: obstacleRect.bottom - 8,
       };
       const hitX = characterHitbox.right > obstacleHitbox.left && characterHitbox.left < obstacleHitbox.right;
       const hitY = characterHitbox.bottom > obstacleHitbox.top && characterHitbox.top < obstacleHitbox.bottom;
