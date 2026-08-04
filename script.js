@@ -395,16 +395,16 @@ function startRunning() {
 
       const goalRect = getRelativeRect(goalEl);
       const characterHitbox = {
-        left: characterRect.left + 12,
-        top: characterRect.top + 10,
-        right: characterRect.right - 12,
-        bottom: characterRect.bottom - 10,
+        left: characterRect.left + 16,
+        top: characterRect.top + 16,
+        right: characterRect.right - 16,
+        bottom: characterRect.bottom - 14,
       };
       const goalHitbox = {
-        left: goalRect.left + 4,
-        top: goalRect.top + 4,
-        right: goalRect.right - 4,
-        bottom: goalRect.bottom - 4,
+        left: goalRect.left + 6,
+        top: goalRect.top + 6,
+        right: goalRect.right - 6,
+        bottom: goalRect.bottom - 6,
       };
       const hitX = characterHitbox.right > goalHitbox.left && characterHitbox.left < goalHitbox.right;
       const hitY = characterHitbox.bottom > goalHitbox.top && characterHitbox.top < goalHitbox.bottom;
@@ -496,22 +496,23 @@ function startRunning() {
       }
 
       const obstacleRect = getRelativeRect(obstacle);
+      const requiresBigJump = obstacle.dataset.requiresBigJump === 'true';
+      const isInJump = isJumping || jumpHeight > 0;
+      const collisionInset = isInJump ? 16 : 10;
       const characterHitbox = {
-        left: characterRect.left + 12,
-        top: characterRect.top + 10,
-        right: characterRect.right - 12,
-        bottom: characterRect.bottom - 10,
+        left: characterRect.left + 20,
+        top: isInJump ? characterRect.top + 18 : characterRect.top + 20,
+        right: characterRect.right - 20,
+        bottom: isInJump ? characterRect.bottom - 18 : characterRect.bottom - 16,
       };
       const obstacleHitbox = {
-        left: obstacleRect.left + 10,
-        top: obstacleRect.top + 8,
-        right: obstacleRect.right - 10,
-        bottom: obstacleRect.bottom - 8,
+        left: obstacleRect.left + collisionInset,
+        top: obstacleRect.top + 7,
+        right: obstacleRect.right - collisionInset,
+        bottom: obstacleRect.bottom - 7,
       };
       const hitX = characterHitbox.right > obstacleHitbox.left && characterHitbox.left < obstacleHitbox.right;
       const hitY = characterHitbox.bottom > obstacleHitbox.top && characterHitbox.top < obstacleHitbox.bottom;
-      const requiresBigJump = obstacle.dataset.requiresBigJump === 'true';
-      const isInJump = isJumping || jumpHeight > 0;
       const canClearWithCurrentJump = isInJump && (!requiresBigJump || jumpSequence === 2);
 
       if (hitX && hitY && !canClearWithCurrentJump) {

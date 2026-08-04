@@ -186,10 +186,10 @@ button:disabled {
 .character {
   position: absolute;
   left: clamp(24px, 7vw, 70px);
-  bottom: 72px;
+  bottom: 68px;
   z-index: 2;
-  width: clamp(84px, 18vw, 108px);
-  height: clamp(84px, 18vw, 108px);
+  width: clamp(96px, 20vw, 120px);
+  height: clamp(96px, 20vw, 120px);
   display: flex;
   align-items: center;
   justify-content: center;
