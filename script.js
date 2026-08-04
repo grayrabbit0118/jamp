@@ -18,6 +18,7 @@ const stageTransitionDetailEl = document.getElementById('stageTransitionDetail')
 const instructionOverlay = document.getElementById('instructionOverlay');
 const instructionStageMessageEl = document.getElementById('instructionStageMessage');
 const instructionContinueButton = document.getElementById('instructionContinueButton');
+const touchPreventElements = [document, gameArea, jumpButton, startButton, retryButton, instructionOverlay];
 
 const jumpSound = new Audio('jump.wav');
 const starSound = new Audio('star.wav');
@@ -111,6 +112,21 @@ function playSound(audio) {
     // モバイル環境ではユーザー操作前に再生できない場合がある
   }
 }
+
+function preventTouchZoom(event) {
+  if (event.touches && event.touches.length > 1) {
+    event.preventDefault();
+  }
+}
+
+touchPreventElements.forEach((element) => {
+  ['touchstart', 'touchmove', 'touchend', 'touchcancel'].forEach((eventName) => {
+    element.addEventListener(eventName, preventTouchZoom, { passive: false });
+  });
+});
+
+window.addEventListener('gesturestart', (event) => event.preventDefault());
+window.addEventListener('dblclick', (event) => event.preventDefault());
 
 function showInstructionOverlay(stage) {
   instructionStageMessageEl.textContent = stage === 1
