@@ -77,8 +77,8 @@ const isMobile = window.matchMedia('(max-width: 900px)').matches || /Android|iPh
 // ゴールは全障害物が終わった後に遅延して出現させる
 const GOAL_DELAY = 500; // ミリ秒
 const STAGE_TRANSITION_DELAY = 2400;
-const CHARACTER_BASE_LEFT = isMobile ? 18 : 24;
-const CHARACTER_BASE_BOTTOM = isMobile ? 46 : 54;
+const CHARACTER_BASE_LEFT = 24;
+const CHARACTER_BASE_BOTTOM = 54;
 let clusterQueue = 0;
 let goalActive = false;
 let goalWaiting = false;
@@ -141,10 +141,12 @@ function showInstructionOverlay(stage) {
     ? '障害物をジャンプして避けろ'
     : '全ての星をキャッチしてゴールを目指せ';
   instructionOverlay.classList.add('show');
+  instructionOverlay.style.display = 'flex';
 }
 
 function hideInstructionOverlay() {
   instructionOverlay.classList.remove('show');
+  instructionOverlay.style.display = 'none';
 }
 
 function setStageTransitionDetail(stage) {
