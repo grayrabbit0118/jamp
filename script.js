@@ -146,17 +146,14 @@ function bindTapAction(element, handler) {
     return;
   }
 
-  const invoke = (event) => {
-    if (event) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
+  const invoke = () => {
     handler();
   };
 
   element.addEventListener('click', invoke);
-  element.addEventListener('touchend', invoke, { passive: false });
-  element.addEventListener('pointerup', invoke);
+  element.addEventListener('mousedown', invoke);
+  element.addEventListener('touchstart', invoke, { passive: true });
+  element.addEventListener('pointerdown', invoke);
 }
 
 function showInstructionOverlay(stage) {
@@ -642,7 +639,10 @@ function jumpCharacter() {
   }
 }
 
-bindTapAction(startButton, () => showInstructionOverlay(1));
+bindTapAction(startButton, () => {
+  hideInstructionOverlay();
+  startCountdown();
+});
 bindTapAction(instructionContinueButton, () => {
   hideInstructionOverlay();
   startCountdown();
