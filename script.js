@@ -49,10 +49,10 @@ let currentStage = 1;
 let stageTransitionActive = false;
 let stageTransitionTimer = 0;
 // スクロール/障害物速度調整
-const BASE_SCROLL_SPEED = 1.2;
-const SCROLL_ACCELERATION = 0.008;
-const BASE_OBJECT_SPEED = 0.7;
-const OBJECT_ACCELERATION = 0.0003;
+const BASE_SCROLL_SPEED = 1.05;
+const SCROLL_ACCELERATION = 0.006;
+const BASE_OBJECT_SPEED = 0.62;
+const OBJECT_ACCELERATION = 0.00024;
 const JUMP_INITIAL_VELOCITY = 17.0;
 const JUMP_DOUBLE_VELOCITY = 24.0;
 const JUMP_GRAVITY = 0.90;
@@ -62,8 +62,8 @@ const BIG_JUMP_GRAVITY = 1.05;
 const BIG_JUMP_FALL_SPEED = 0.42;
 const BIG_JUMP_MAX_HEIGHT = 320;
 // 障害物生成間隔（ミリ秒）。値を大きくすると障害物の間隔が長くなります。
-const OBSTACLE_INTERVAL = 1100;
-const CLUSTER_INTERVAL = 780;
+const OBSTACLE_INTERVAL = 1320;
+const CLUSTER_INTERVAL = 940;
 const CLUSTER_SIZE = 5;
 const CLUSTER_CHANCE = 0.18;
 const STAGE1_OBSTACLE_COUNT = 15;
@@ -276,11 +276,11 @@ function startRunning() {
       }
     }
     const obstacleInterval = currentStage === 1
-      ? Math.max(700, OBSTACLE_INTERVAL - (currentStage - 1) * 100)
+      ? Math.max(900, OBSTACLE_INTERVAL - (currentStage - 1) * 90)
       : Math.max(1800, OBSTACLE_INTERVAL - (currentStage - 1) * 10);
     const clusterInterval = currentStage === 1
-      ? Math.max(560, CLUSTER_INTERVAL - (currentStage - 1) * 60)
-      : Math.max(1100, CLUSTER_INTERVAL - (currentStage - 1) * 5);
+      ? Math.max(760, CLUSTER_INTERVAL - (currentStage - 1) * 50)
+      : Math.max(1200, CLUSTER_INTERVAL - (currentStage - 1) * 5);
     const currentInterval = clusterQueue > 0 ? clusterInterval : obstacleInterval;
     const shouldSpawnObstacle = currentStage === 2
       ? !stage2GoalPhase && starObstacleBlockTimer <= 0 && Math.random() < 0.12
