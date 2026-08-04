@@ -217,8 +217,8 @@ button:disabled {
 
 @media (max-width: 900px) {
   .character {
-    left: 24px;
-    bottom: 54px;
+    left: 18px;
+    bottom: 46px;
     width: 132px;
     height: 132px;
   }

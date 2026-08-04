@@ -73,12 +73,11 @@ const CLUSTER_INTERVAL = 940;
 const CLUSTER_SIZE = 5;
 const CLUSTER_CHANCE = 0.18;
 const STAGE1_OBSTACLE_COUNT = 15;
-const isMobile = window.matchMedia('(max-width: 900px)').matches || /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
 // ゴールは全障害物が終わった後に遅延して出現させる
-const GOAL_DELAY = 500; // ミリ秒
+const GOAL_DELAY = 700; // ミリ秒
 const STAGE_TRANSITION_DELAY = 2400;
-const CHARACTER_BASE_LEFT = 24;
-const CHARACTER_BASE_BOTTOM = 54;
+const CHARACTER_BASE_LEFT = isMobile ? 18 : 24;
+const CHARACTER_BASE_BOTTOM = isMobile ? 46 : 54;
 let clusterQueue = 0;
 let goalActive = false;
 let goalWaiting = false;
@@ -90,6 +89,7 @@ let starSpawnCount = 0;
 let previousStage2BigObstacle = false;
 let stage2GoalPhase = false;
 let gameClearTimeoutId = null;
+const isMobile = window.matchMedia('(max-width: 900px)').matches || /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
 const STAR_SPAWN_DELAY = 2200;
 const STAR_OBSTACLE_BLOCK_DELAY = 800;
 const STAR_TARGET_COUNT = 15;
@@ -141,12 +141,10 @@ function showInstructionOverlay(stage) {
     ? '障害物をジャンプして避けろ'
     : '全ての星をキャッチしてゴールを目指せ';
   instructionOverlay.classList.add('show');
-  instructionOverlay.style.display = 'flex';
 }
 
 function hideInstructionOverlay() {
   instructionOverlay.classList.remove('show');
-  instructionOverlay.style.display = 'none';
 }
 
 function setStageTransitionDetail(stage) {
@@ -465,16 +463,16 @@ function startRunning() {
     if (currentStage === 2 && starActive && starEl) {
       const starRect = getRelativeRect(starEl);
       const characterHitbox = {
-        left: characterRect.left + 6,
-        top: characterRect.top + 6,
-        right: characterRect.right - 6,
-        bottom: characterRect.bottom - 6,
+        left: characterRect.left - 8,
+        top: characterRect.top - 8,
+        right: characterRect.right + 8,
+        bottom: characterRect.bottom + 8,
       };
       const starHitbox = {
-        left: starRect.left + 2,
-        top: starRect.top + 2,
-        right: starRect.right - 2,
-        bottom: starRect.bottom - 2,
+        left: starRect.left - 0.5,
+        top: starRect.top - 0.5,
+        right: starRect.right + 0.5,
+        bottom: starRect.bottom + 0.5,
       };
       const hitX = characterHitbox.right > starHitbox.left && characterHitbox.left < starHitbox.right;
       const hitY = characterHitbox.bottom > starHitbox.top && characterHitbox.top < starHitbox.bottom;
@@ -503,18 +501,18 @@ function startRunning() {
       const requiresBigJump = obstacle.dataset.requiresBigJump === 'true';
       const isInJump = isJumping || jumpHeight > 0;
       const isDescending = jumpHeight > 0 && !isJumping;
-      const collisionInset = isMobile ? 68 : (isDescending ? 48 : isInJump ? 42 : 34);
+      const collisionInset = isMobile ? 72 : (isDescending ? 50 : isInJump ? 44 : 36);
       const characterHitbox = {
-        left: characterRect.left + (isMobile ? 28 : 24),
-        top: isDescending ? characterRect.top + 18 : isInJump ? characterRect.top + 20 : characterRect.top + 24,
-        right: characterRect.right - (isMobile ? 28 : 24),
-        bottom: isDescending ? characterRect.bottom - 16 : isInJump ? characterRect.bottom - 22 : characterRect.bottom - 18,
+        left: characterRect.left + (isMobile ? 30 : 26),
+        top: isDescending ? characterRect.top + 20 : isInJump ? characterRect.top + 22 : characterRect.top + 26,
+        right: characterRect.right - (isMobile ? 30 : 26),
+        bottom: isDescending ? characterRect.bottom - 18 : isInJump ? characterRect.bottom - 24 : characterRect.bottom - 20,
       };
       const obstacleHitbox = {
         left: obstacleRect.left + collisionInset,
-        top: obstacleRect.top + (isMobile ? 22 : 20),
+        top: obstacleRect.top + (isMobile ? 24 : 22),
         right: obstacleRect.right - collisionInset,
-        bottom: obstacleRect.bottom - (isMobile ? 20 : 18),
+        bottom: obstacleRect.bottom - (isMobile ? 22 : 20),
       };
       const hitX = characterHitbox.right > obstacleHitbox.left && characterHitbox.left < obstacleHitbox.right;
       const hitY = characterHitbox.bottom > obstacleHitbox.top && characterHitbox.top < obstacleHitbox.bottom;
