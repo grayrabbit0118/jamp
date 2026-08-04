@@ -280,7 +280,10 @@ function startRunning() {
     }
 
     const stageSpeedBoost = (currentStage - 1) * 0.08;
-    const speed = BASE_SCROLL_SPEED + (delta / 16) * SCROLL_ACCELERATION + stageSpeedBoost;
+    const frame = delta / 16;
+
+const speed =
+    (BASE_SCROLL_SPEED + stageSpeedBoost) * frame;
     scrollOffset += speed;
 
     if (scrollOffset > 1600) {
@@ -364,7 +367,10 @@ const nextLeft = currentLeft - (
 
     if (currentStage === 2 && starActive && starEl) {
       const currentLeft = parseFloat(starEl.style.left || '100%');
-      const nextLeft = currentLeft - (BASE_OBJECT_SPEED + 0.04 + delta * OBJECT_ACCELERATION);
+      const frame = delta / 16;
+const nextLeft = currentLeft - (
+    (BASE_OBJECT_SPEED + 0.04) * frame
+);
       starEl.style.left = `${nextLeft}%`;
 
       if (nextLeft < -12) {
@@ -399,7 +405,12 @@ const nextLeft = currentLeft - (
 
     if (goalActive) {
       const currentLeft = parseFloat(goalEl.style.left || '120%');
-      const nextLeft = currentLeft - (BASE_OBJECT_SPEED + (currentStage - 1) * 0.05 + delta * OBJECT_ACCELERATION);
+      const frame = delta / 16;
+
+const nextLeft = currentLeft - (
+    BASE_OBJECT_SPEED * frame +
+    (currentStage - 1) * 0.05 * frame
+);
       goalEl.style.left = `${nextLeft}%`;
 
       const goalRect = getRelativeRect(goalEl);
