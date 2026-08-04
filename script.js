@@ -55,7 +55,7 @@ let currentStage = 1;
 let stageTransitionActive = false;
 let stageTransitionTimer = 0;
 // スクロール/障害物速度調整
-const BASE_SCROLL_SPEED = 1.05;
+const BASE_SCROLL_SPEED = 1.15;
 const SCROLL_ACCELERATION = 0.006;
 const BASE_OBJECT_SPEED = 0.62;
 const OBJECT_ACCELERATION = 0.00024;
@@ -74,8 +74,16 @@ const CLUSTER_SIZE = 5;
 const CLUSTER_CHANCE = 0.18;
 const STAGE1_OBSTACLE_COUNT = 15;
 // ゴールは全障害物が終わった後に遅延して出現させる
-const GOAL_DELAY = 900; // ミリ秒
+const GOAL_DELAY = 500; // ミリ秒
 const STAGE_TRANSITION_DELAY = 2400;
+
+const isMobile = window.matchMedia('(max-width: 900px)').matches || /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+const STAR_SPAWN_DELAY = 2200;
+const STAR_OBSTACLE_BLOCK_DELAY = 800;
+const STAR_TARGET_COUNT = 15;
+const SCORE_TARGET_COUNT = 15;
+const GAME_CLEAR_DELAY = 1200;
+
 const CHARACTER_BASE_LEFT = isMobile ? 18 : 24;
 const CHARACTER_BASE_BOTTOM = isMobile ? 46 : 54;
 let clusterQueue = 0;
@@ -89,12 +97,6 @@ let starSpawnCount = 0;
 let previousStage2BigObstacle = false;
 let stage2GoalPhase = false;
 let gameClearTimeoutId = null;
-const isMobile = window.matchMedia('(max-width: 900px)').matches || /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
-const STAR_SPAWN_DELAY = 2200;
-const STAR_OBSTACLE_BLOCK_DELAY = 800;
-const STAR_TARGET_COUNT = 15;
-const SCORE_TARGET_COUNT = 15;
-const GAME_CLEAR_DELAY = 1200;
 
 function getRelativeRect(element) {
   const rect = element.getBoundingClientRect();
