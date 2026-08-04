@@ -87,6 +87,7 @@ let starSpawnCount = 0;
 let previousStage2BigObstacle = false;
 let stage2GoalPhase = false;
 let gameClearTimeoutId = null;
+const isMobile = window.matchMedia('(max-width: 900px)').matches || /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
 const STAR_SPAWN_DELAY = 2200;
 const STAR_OBSTACLE_BLOCK_DELAY = 800;
 const STAR_TARGET_COUNT = 15;
@@ -302,11 +303,11 @@ function startRunning() {
       }
     }
     const obstacleInterval = currentStage === 1
-      ? Math.max(900, OBSTACLE_INTERVAL - (currentStage - 1) * 90)
-      : Math.max(1800, OBSTACLE_INTERVAL - (currentStage - 1) * 10);
+      ? (isMobile ? Math.max(1100, OBSTACLE_INTERVAL + 120 - (currentStage - 1) * 90) : Math.max(900, OBSTACLE_INTERVAL - (currentStage - 1) * 90))
+      : (isMobile ? Math.max(2000, OBSTACLE_INTERVAL + 180 - (currentStage - 1) * 10) : Math.max(1800, OBSTACLE_INTERVAL - (currentStage - 1) * 10));
     const clusterInterval = currentStage === 1
-      ? Math.max(760, CLUSTER_INTERVAL - (currentStage - 1) * 50)
-      : Math.max(1200, CLUSTER_INTERVAL - (currentStage - 1) * 5);
+      ? (isMobile ? Math.max(920, CLUSTER_INTERVAL + 80 - (currentStage - 1) * 50) : Math.max(760, CLUSTER_INTERVAL - (currentStage - 1) * 50))
+      : (isMobile ? Math.max(1400, CLUSTER_INTERVAL + 120 - (currentStage - 1) * 5) : Math.max(1200, CLUSTER_INTERVAL - (currentStage - 1) * 5));
     const currentInterval = clusterQueue > 0 ? clusterInterval : obstacleInterval;
     const shouldSpawnObstacle = currentStage === 2
       ? !stage2GoalPhase && starObstacleBlockTimer <= 0 && Math.random() < 0.12
@@ -498,7 +499,9 @@ function startRunning() {
       const requiresBigJump = obstacle.dataset.requiresBigJump === 'true';
       const isInJump = isJumping || jumpHeight > 0;
       const isDescending = jumpHeight > 0 && !isJumping;
-      const collisionInset = isDescending ? 34 : isInJump ? 30 : 22;
+      const collisionInset = isMobile
+        ? (isDescending ? 48 : isInJump ? 42 : 34)
+        : (isDescending ? 40 : isInJump ? 34 : 28);
       const characterHitbox = {
         left: characterRect.left + 20,
         top: isDescending ? characterRect.top + 16 : isInJump ? characterRect.top + 18 : characterRect.top + 20,
@@ -507,7 +510,7 @@ function startRunning() {
       };
       const obstacleHitbox = {
         left: obstacleRect.left + collisionInset,
-        top: obstacleRect.top + 16,
+        top: obstacleRect.top + 18,
         right: obstacleRect.right - collisionInset,
         bottom: obstacleRect.bottom - 16,
       };
