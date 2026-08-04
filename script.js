@@ -63,10 +63,10 @@ const JUMP_INITIAL_VELOCITY = 17.0;
 const JUMP_DOUBLE_VELOCITY = 24.0;
 const JUMP_GRAVITY = 0.90;
 const JUMP_FALL_SPEED = 0.36;
-const MAX_JUMP_HEIGHT = 420;
+const MAX_JUMP_HEIGHT = 450;
 const BIG_JUMP_GRAVITY = 1.05;
 const BIG_JUMP_FALL_SPEED = 0.42;
-const BIG_JUMP_MAX_HEIGHT = 320;
+const BIG_JUMP_MAX_HEIGHT = 340;
 // 障害物生成間隔（ミリ秒）。値を大きくすると障害物の間隔が長くなります。
 const OBSTACLE_INTERVAL = 1320;
 const CLUSTER_INTERVAL = 940;
@@ -74,7 +74,7 @@ const CLUSTER_SIZE = 5;
 const CLUSTER_CHANCE = 0.18;
 const STAGE1_OBSTACLE_COUNT = 15;
 // ゴールは全障害物が終わった後に遅延して出現させる
-const GOAL_DELAY = 1200; // ミリ秒
+const GOAL_DELAY = 900; // ミリ秒
 const STAGE_TRANSITION_DELAY = 2400;
 let clusterQueue = 0;
 let goalActive = false;
@@ -240,9 +240,8 @@ function startRunning() {
     : `Score: ${score}/${SCORE_TARGET_COUNT}`;
   resetObstacles();
   character.classList.add('run');
-  character.style.transform = 'scaleX(-1)';
-  character.style.bottom = '72px';
-  character.style.left = 'clamp(24px, 7vw, 70px)';
+  character.style.bottom = '54px';
+  character.style.left = '24px';
   jumpHeight = 0;
   isJumping = false;
   jumpVelocity = 0;
@@ -467,10 +466,10 @@ function startRunning() {
         bottom: characterRect.bottom + 8,
       };
       const starHitbox = {
-        left: starRect.left - 4,
-        top: starRect.top - 4,
-        right: starRect.right + 4,
-        bottom: starRect.bottom + 4,
+        left: starRect.left - 0.5,
+        top: starRect.top - 0.5,
+        right: starRect.right + 0.5,
+        bottom: starRect.bottom + 0.5,
       };
       const hitX = characterHitbox.right > starHitbox.left && characterHitbox.left < starHitbox.right;
       const hitY = characterHitbox.bottom > starHitbox.top && characterHitbox.top < starHitbox.bottom;
@@ -499,7 +498,7 @@ function startRunning() {
       const requiresBigJump = obstacle.dataset.requiresBigJump === 'true';
       const isInJump = isJumping || jumpHeight > 0;
       const isDescending = jumpHeight > 0 && !isJumping;
-      const collisionInset = isDescending ? 24 : isInJump ? 20 : 14;
+      const collisionInset = isDescending ? 34 : isInJump ? 30 : 22;
       const characterHitbox = {
         left: characterRect.left + 20,
         top: isDescending ? characterRect.top + 16 : isInJump ? characterRect.top + 18 : characterRect.top + 20,
@@ -508,9 +507,9 @@ function startRunning() {
       };
       const obstacleHitbox = {
         left: obstacleRect.left + collisionInset,
-        top: obstacleRect.top + 8,
+        top: obstacleRect.top + 16,
         right: obstacleRect.right - collisionInset,
-        bottom: obstacleRect.bottom - 8,
+        bottom: obstacleRect.bottom - 16,
       };
       const hitX = characterHitbox.right > obstacleHitbox.left && characterHitbox.left < obstacleHitbox.right;
       const hitY = characterHitbox.bottom > obstacleHitbox.top && characterHitbox.top < obstacleHitbox.bottom;
@@ -559,7 +558,9 @@ function startRunning() {
       }
     }
 
-    character.style.bottom = `${72 + jumpHeight}px`;
+    character.style.bottom = `${54 + jumpHeight}px`;
+    character.style.left = '24px';
+    character.style.transform = 'scaleX(-1)';
     if (jumpHeight > 0) {
       character.classList.add('jump');
     } else {
