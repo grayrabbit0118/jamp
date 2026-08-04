@@ -74,7 +74,7 @@ const CLUSTER_SIZE = 5;
 const CLUSTER_CHANCE = 0.18;
 const STAGE1_OBSTACLE_COUNT = 15;
 // ゴールは全障害物が終わった後に遅延して出現させる
-const GOAL_DELAY = 700; // ミリ秒
+const GOAL_DELAY = 900; // ミリ秒
 const STAGE_TRANSITION_DELAY = 2400;
 const CHARACTER_BASE_LEFT = isMobile ? 18 : 24;
 const CHARACTER_BASE_BOTTOM = isMobile ? 46 : 54;
