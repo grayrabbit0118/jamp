@@ -19,7 +19,7 @@ const stageTransitionDetailEl = document.getElementById('stageTransitionDetail')
 const instructionOverlay = document.getElementById('instructionOverlay');
 const instructionStageMessageEl = document.getElementById('instructionStageMessage');
 const instructionContinueButton = document.getElementById('instructionContinueButton');
-const touchPreventElements = [document, gameArea, jumpButton, startButton, retryButton, instructionOverlay];
+const touchPreventElements = [gameArea, jumpButton, startButton, retryButton, instructionOverlay];
 
 if (characterImageEl) {
   characterImageEl.src = 'images/player_run1.png?v=2';
