@@ -96,11 +96,6 @@ const STAR_TARGET_COUNT = 15;
 const SCORE_TARGET_COUNT = 15;
 const GAME_CLEAR_DELAY = 1200;
 
-if (character) {
-  character.style.left = `${CHARACTER_BASE_LEFT}px`;
-  character.style.bottom = `${CHARACTER_BASE_BOTTOM}px`;
-}
-
 function getRelativeRect(element) {
   const rect = element.getBoundingClientRect();
   const areaRect = gameArea.getBoundingClientRect();
@@ -140,21 +135,6 @@ touchPreventElements.forEach((element) => {
 
 window.addEventListener('gesturestart', (event) => event.preventDefault());
 window.addEventListener('dblclick', (event) => event.preventDefault());
-
-function bindTapAction(element, handler) {
-  if (!element) {
-    return;
-  }
-
-  const invoke = () => {
-    handler();
-  };
-
-  element.addEventListener('click', invoke);
-  element.addEventListener('mousedown', invoke);
-  element.addEventListener('touchstart', invoke, { passive: true });
-  element.addEventListener('pointerdown', invoke);
-}
 
 function showInstructionOverlay(stage) {
   instructionStageMessageEl.textContent = stage === 1
@@ -483,16 +463,16 @@ function startRunning() {
     if (currentStage === 2 && starActive && starEl) {
       const starRect = getRelativeRect(starEl);
       const characterHitbox = {
-        left: characterRect.left - 8,
-        top: characterRect.top - 8,
-        right: characterRect.right + 8,
-        bottom: characterRect.bottom + 8,
+        left: characterRect.left + 6,
+        top: characterRect.top + 6,
+        right: characterRect.right - 6,
+        bottom: characterRect.bottom - 6,
       };
       const starHitbox = {
-        left: starRect.left - 1.5,
-        top: starRect.top - 1.5,
-        right: starRect.right + 1.5,
-        bottom: starRect.bottom + 1.5,
+        left: starRect.left + 2,
+        top: starRect.top + 2,
+        right: starRect.right - 2,
+        bottom: starRect.bottom - 2,
       };
       const hitX = characterHitbox.right > starHitbox.left && characterHitbox.left < starHitbox.right;
       const hitY = characterHitbox.bottom > starHitbox.top && characterHitbox.top < starHitbox.bottom;
@@ -521,18 +501,18 @@ function startRunning() {
       const requiresBigJump = obstacle.dataset.requiresBigJump === 'true';
       const isInJump = isJumping || jumpHeight > 0;
       const isDescending = jumpHeight > 0 && !isJumping;
-      const collisionInset = isMobile ? 66 : (isDescending ? 50 : isInJump ? 44 : 36);
+      const collisionInset = isMobile ? 68 : (isDescending ? 48 : isInJump ? 42 : 34);
       const characterHitbox = {
-        left: characterRect.left + (isMobile ? 28 : 26),
+        left: characterRect.left + (isMobile ? 28 : 24),
         top: isDescending ? characterRect.top + 18 : isInJump ? characterRect.top + 20 : characterRect.top + 24,
-        right: characterRect.right - (isMobile ? 28 : 26),
+        right: characterRect.right - (isMobile ? 28 : 24),
         bottom: isDescending ? characterRect.bottom - 16 : isInJump ? characterRect.bottom - 22 : characterRect.bottom - 18,
       };
       const obstacleHitbox = {
         left: obstacleRect.left + collisionInset,
-        top: obstacleRect.top + (isMobile ? 20 : 22),
+        top: obstacleRect.top + (isMobile ? 22 : 20),
         right: obstacleRect.right - collisionInset,
-        bottom: obstacleRect.bottom - (isMobile ? 18 : 20),
+        bottom: obstacleRect.bottom - (isMobile ? 20 : 18),
       };
       const hitX = characterHitbox.right > obstacleHitbox.left && characterHitbox.left < obstacleHitbox.right;
       const hitY = characterHitbox.bottom > obstacleHitbox.top && characterHitbox.top < obstacleHitbox.bottom;
@@ -639,16 +619,13 @@ function jumpCharacter() {
   }
 }
 
-bindTapAction(startButton, () => {
+startButton.addEventListener('click', () => showInstructionOverlay(1));
+instructionContinueButton.addEventListener('click', () => {
   hideInstructionOverlay();
   startCountdown();
 });
-bindTapAction(instructionContinueButton, () => {
-  hideInstructionOverlay();
-  startCountdown();
-});
-bindTapAction(jumpButton, jumpCharacter);
-bindTapAction(retryButton, () => {
+jumpButton.addEventListener('click', jumpCharacter);
+retryButton.addEventListener('click', () => {
   // リトライ / 最初からプレイ時は状態をリセットして再開
   if (gameCleared) {
     currentStage = 1;

@@ -45,7 +45,6 @@ button {
   border: 0;
   border-radius: 999px;
   padding: 12px 24px;
-  touch-action: manipulation;
   background: #2a7fff;
   color: white;
   font-size: 16px;
