@@ -2,6 +2,7 @@ const startButton = document.getElementById('startButton');
 const gameArea = document.getElementById('gameArea');
 const countdownEl = document.getElementById('countdown');
 const character = document.getElementById('character');
+const characterImageEl = document.getElementById('characterImage');
 const jumpButton = document.getElementById('jumpButton');
 const scoreEl = document.getElementById('score');
 const gameOverEl = document.getElementById('gameOver');
@@ -19,6 +20,10 @@ const instructionOverlay = document.getElementById('instructionOverlay');
 const instructionStageMessageEl = document.getElementById('instructionStageMessage');
 const instructionContinueButton = document.getElementById('instructionContinueButton');
 const touchPreventElements = [document, gameArea, jumpButton, startButton, retryButton, instructionOverlay];
+
+if (characterImageEl) {
+  characterImageEl.src = 'images/player_run1.png?v=2';
+}
 
 const jumpSound = new Audio('jump.wav');
 const starSound = new Audio('star.wav');
@@ -236,6 +241,12 @@ function startRunning() {
   resetObstacles();
   character.classList.add('run');
   character.style.transform = 'scaleX(-1)';
+  character.style.bottom = '72px';
+  character.style.left = 'clamp(24px, 7vw, 70px)';
+  jumpHeight = 0;
+  isJumping = false;
+  jumpVelocity = 0;
+  jumpSequence = 0;
   gameCleared = false;
   retryButton.textContent = 'リトライ';
   lastTime = 0;
@@ -546,7 +557,7 @@ function startRunning() {
       }
     }
 
-    character.style.bottom = `${96 + jumpHeight}px`;
+    character.style.bottom = `${72 + jumpHeight}px`;
     if (jumpHeight > 0) {
       character.classList.add('jump');
     } else {

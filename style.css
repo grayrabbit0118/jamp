@@ -186,14 +186,32 @@ button:disabled {
 .character {
   position: absolute;
   left: clamp(24px, 7vw, 70px);
-  bottom: 96px;
+  bottom: 72px;
   z-index: 2;
-  font-size: clamp(56px, 13vw, 72px);
-  line-height: 1;
+  width: clamp(84px, 18vw, 108px);
+  height: clamp(84px, 18vw, 108px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.18));
   transform: scaleX(-1);
   transform-origin: center;
   transition: transform 0.15s ease;
+}
+
+.character-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  pointer-events: none;
+  image-rendering: auto;
+  transform: scaleX(-1);
+  transform-origin: center;
+  background: transparent;
 }
 
 .score {
