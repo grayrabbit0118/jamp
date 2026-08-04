@@ -76,6 +76,8 @@ const STAGE1_OBSTACLE_COUNT = 15;
 // ゴールは全障害物が終わった後に遅延して出現させる
 const GOAL_DELAY = 900; // ミリ秒
 const STAGE_TRANSITION_DELAY = 2400;
+const CHARACTER_BASE_LEFT = 24;
+const CHARACTER_BASE_BOTTOM = 54;
 let clusterQueue = 0;
 let goalActive = false;
 let goalWaiting = false;
@@ -241,8 +243,8 @@ function startRunning() {
     : `Score: ${score}/${SCORE_TARGET_COUNT}`;
   resetObstacles();
   character.classList.add('run');
-  character.style.bottom = '54px';
-  character.style.left = '24px';
+  character.style.bottom = `${CHARACTER_BASE_BOTTOM}px`;
+  character.style.left = `${CHARACTER_BASE_LEFT}px`;
   jumpHeight = 0;
   isJumping = false;
   jumpVelocity = 0;
@@ -500,19 +502,19 @@ function startRunning() {
       const isInJump = isJumping || jumpHeight > 0;
       const isDescending = jumpHeight > 0 && !isJumping;
       const collisionInset = isMobile
-        ? (isDescending ? 48 : isInJump ? 42 : 34)
-        : (isDescending ? 40 : isInJump ? 34 : 28);
+        ? (isDescending ? 56 : isInJump ? 50 : 44)
+        : (isDescending ? 50 : isInJump ? 44 : 36);
       const characterHitbox = {
-        left: characterRect.left + 20,
-        top: isDescending ? characterRect.top + 16 : isInJump ? characterRect.top + 18 : characterRect.top + 20,
-        right: characterRect.right - 20,
-        bottom: isDescending ? characterRect.bottom - 12 : isInJump ? characterRect.bottom - 18 : characterRect.bottom - 16,
+        left: characterRect.left + 26,
+        top: isDescending ? characterRect.top + 22 : isInJump ? characterRect.top + 24 : characterRect.top + 28,
+        right: characterRect.right - 26,
+        bottom: isDescending ? characterRect.bottom - 18 : isInJump ? characterRect.bottom - 24 : characterRect.bottom - 20,
       };
       const obstacleHitbox = {
         left: obstacleRect.left + collisionInset,
-        top: obstacleRect.top + 18,
+        top: obstacleRect.top + 22,
         right: obstacleRect.right - collisionInset,
-        bottom: obstacleRect.bottom - 16,
+        bottom: obstacleRect.bottom - 20,
       };
       const hitX = characterHitbox.right > obstacleHitbox.left && characterHitbox.left < obstacleHitbox.right;
       const hitY = characterHitbox.bottom > obstacleHitbox.top && characterHitbox.top < obstacleHitbox.bottom;
@@ -561,8 +563,8 @@ function startRunning() {
       }
     }
 
-    character.style.bottom = `${54 + jumpHeight}px`;
-    character.style.left = '24px';
+    character.style.bottom = `${CHARACTER_BASE_BOTTOM + jumpHeight}px`;
+    character.style.left = `${CHARACTER_BASE_LEFT}px`;
     character.style.transform = 'scaleX(-1)';
     if (jumpHeight > 0) {
       character.classList.add('jump');
