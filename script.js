@@ -501,18 +501,18 @@ function startRunning() {
       const requiresBigJump = obstacle.dataset.requiresBigJump === 'true';
       const isInJump = isJumping || jumpHeight > 0;
       const isDescending = jumpHeight > 0 && !isJumping;
-      const collisionInset = isMobile ? 72 : (isDescending ? 50 : isInJump ? 44 : 36);
+      const collisionInset = isMobile ? 84 : (isDescending ? 50 : isInJump ? 44 : 36);
       const characterHitbox = {
-        left: characterRect.left + (isMobile ? 30 : 26),
-        top: isDescending ? characterRect.top + 20 : isInJump ? characterRect.top + 22 : characterRect.top + 26,
-        right: characterRect.right - (isMobile ? 30 : 26),
-        bottom: isDescending ? characterRect.bottom - 18 : isInJump ? characterRect.bottom - 24 : characterRect.bottom - 20,
+        left: characterRect.left + (isMobile ? 34 : 26),
+        top: isDescending ? characterRect.top + 24 : isInJump ? characterRect.top + 26 : characterRect.top + 30,
+        right: characterRect.right - (isMobile ? 34 : 26),
+        bottom: isDescending ? characterRect.bottom - 22 : isInJump ? characterRect.bottom - 28 : characterRect.bottom - 24,
       };
       const obstacleHitbox = {
         left: obstacleRect.left + collisionInset,
-        top: obstacleRect.top + (isMobile ? 24 : 22),
+        top: obstacleRect.top + (isMobile ? 28 : 22),
         right: obstacleRect.right - collisionInset,
-        bottom: obstacleRect.bottom - (isMobile ? 22 : 20),
+        bottom: obstacleRect.bottom - (isMobile ? 26 : 20),
       };
       const hitX = characterHitbox.right > obstacleHitbox.left && characterHitbox.left < obstacleHitbox.right;
       const hitY = characterHitbox.bottom > obstacleHitbox.top && characterHitbox.top < obstacleHitbox.bottom;
