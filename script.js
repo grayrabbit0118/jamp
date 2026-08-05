@@ -379,12 +379,19 @@ const nextLeft = currentLeft - (
 );
       starEl.style.left = `${nextLeft}%`;
 
-      if (nextLeft < -12) {
-        starActive = false;
-        starEl.classList.remove('active');
-        starEl.style.left = '100%';
-      }
+ if (nextLeft < -12) {
+    starActive = false;
+    starEl.classList.remove('active');
+    starEl.style.left = '100%';
+
+    // 15個すべて流れ終わったらゴール
+    if (starSpawnCount >= STAR_TARGET_COUNT) {
+        stage2GoalPhase = true;
+        goalWaiting = true;
+        goalDelayTimer = 0;
     }
+}
+}
     // キャラクターの矩形はゴール判定の前に計算しておく
     const characterRect = getRelativeRect(character);
 
@@ -509,10 +516,8 @@ const nextLeft = currentLeft - (
         playSound(starSound);
 
         if (currentStage === 2 && starCount >= STAR_TARGET_COUNT) {
-          stage2GoalPhase = true;
-          goalWaiting = true;
-          goalDelayTimer = 0;
-        }
+    stage2GoalPhase = true;
+}
       }
     }
 
